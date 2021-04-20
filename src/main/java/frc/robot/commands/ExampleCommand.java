@@ -5,11 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
-public class AutoWaitCommand extends Command {
-  public AutoWaitCommand() {
+/** An example command. You can replace me with your own command. */
+public class ExampleCommand extends Command {
+  public ExampleCommand() {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    requires(Robot.m_subsystem);
   }
 
   // Called just before this Command runs the first time

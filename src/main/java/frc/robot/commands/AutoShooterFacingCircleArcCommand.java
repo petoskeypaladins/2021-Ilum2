@@ -8,15 +8,17 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
-public class AutoDriveCommand extends Command {
-
-  double goal;
-  double progress;
-  public AutoDriveCommand(double inches) {
+public class AutoShooterFacingCircleArcCommand extends Command {
+  double leftDistance;
+  double rightDistance;
+  double speedChange;
+  public AutoShooterFacingCircleArcCommand(double leftMotorDistance, double rightMotorDistance, double speedModifier) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.m_driveSubsystem);
-    goal = inches;
+    leftDistance = leftMotorDistance;
+    rightDistance = rightMotorDistance;
+    speedChange = speedModifier;
   }
 
   // Called just before this Command runs the first time
@@ -31,21 +33,19 @@ public class AutoDriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      if (goal > 0) Robot.m_driveSubsystem.driveTrain.arcadeDrive(0.5, 0);
-      else Robot.m_driveSubsystem.driveTrain.arcadeDrive(-0.5, 0);
-      SmartDashboard.putNumber("Left Encoder Counts", Robot.m_driveSubsystem.leftEncoder.getPosition());
-      SmartDashboard.putNumber("Right Encoder Counts", Robot.m_driveSubsystem.rightEncoder.getPosition());
-      SmartDashboard.putNumber("goal", goal);
-      progress = Robot.m_driveSubsystem.leftEncoder.getPosition()*40/23;
-    
+    SmartDashboard.putNumber("Left Encoder Counts", Robot.m_driveSubsystem.leftEncoder.getPosition());
+    SmartDashboard.putNumber("Right Encoder Counts", Robot.m_driveSubsystem.rightEncoder.getPosition());
+    if(leftDistance < rightDistance) {
+      Robot.m_driveSubsystem.driveTrain.tankDrive((-speedChange), ((rightDistance/leftDistance)*-speedChange));
+    } else {
+      Robot.m_driveSubsystem.driveTrain.tankDrive(((leftDistance/rightDistance)*-speedChange), (-speedChange));
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    // return ((Robot.m_driveSubsystem.leftEncoder.getPosition()) < (goal * (23/40)));
-    if (goal > 0) return (progress > goal);
-    else return (progress < goal);
+    return ((Robot.m_driveSubsystem.leftEncoder.getPosition() <= -leftDistance) && (Robot.m_driveSubsystem.rightEncoder.getPosition() >= rightDistance));
   }
 
   // Called once after isFinished returns true

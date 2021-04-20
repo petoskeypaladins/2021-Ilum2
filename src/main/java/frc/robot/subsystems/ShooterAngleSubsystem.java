@@ -8,20 +8,20 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.commands.TeleOpShooterFeederCommand;
+import frc.robot.commands.TeleOpShooterAngleCommand;
 
 /** Add your docs here. */
-public class ShooterFeederSubsystem extends Subsystem {
+public class ShooterAngleSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  public DigitalInput feederSwitch = new DigitalInput(9);
-  public WPI_TalonSRX feederMotor = new WPI_TalonSRX(5);
+  public WPI_TalonSRX shooterAngle = new WPI_TalonSRX(14);
+  public DigitalInput ShooterSwitch = new DigitalInput(8);
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new TeleOpShooterFeederCommand());
+    setDefaultCommand(new TeleOpShooterAngleCommand());
 
   }
 }

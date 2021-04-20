@@ -6,8 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class AutoWaitCommand extends Command {
-  public AutoWaitCommand() {
+public class AutoRotateCommand extends Command {
+  public AutoRotateCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }

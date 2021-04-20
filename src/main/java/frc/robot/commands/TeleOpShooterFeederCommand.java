@@ -5,11 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
-public class AutoWaitCommand extends Command {
-  public AutoWaitCommand() {
+public class TeleOpShooterFeederCommand extends Command {
+  public TeleOpShooterFeederCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.m_shooterFeederSubsystem);
   }
 
   // Called just before this Command runs the first time
@@ -18,7 +20,12 @@ public class AutoWaitCommand extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {}
+  protected void execute() {
+    if (Robot.m_oi.flightStick.getRawButton(2)) {
+        Robot.m_shooterFeederSubsystem.feederMotor.set(0.35);
+    } else if(Robot.m_shooterFeederSubsystem.feederSwitch.get() == false) Robot.m_shooterFeederSubsystem.feederMotor.set(0.15);
+    else Robot.m_shooterFeederSubsystem.feederMotor.set(0.0);
+  }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override

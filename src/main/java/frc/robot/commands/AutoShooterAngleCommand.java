@@ -4,11 +4,17 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import java.util.concurrent.ConcurrentSkipListMap;
 
-public class AutoWaitCommand extends Command {
-  public AutoWaitCommand() {
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
+
+public class AutoShooterAngleCommand extends Command {
+  int goal;
+  public AutoShooterAngleCommand(int counts) {
     // Use requires() here to declare subsystem dependencies
+    goal = -counts;
+    requires(Robot.m_angleSubsystem);
     // eg. requires(chassis);
   }
 
@@ -18,17 +24,21 @@ public class AutoWaitCommand extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {}
+  protected void execute() {
+    Robot.m_angleSubsystem.shooterAngle.set(0.4);
+  }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Robot.m_angleSubsystem.shooterAngle.getSelectedSensorPosition() < goal;
   }
 
   // Called once after isFinished returns true
   @Override
-  protected void end() {}
+  protected void end() {
+    Robot.m_angleSubsystem.shooterAngle.set(0);
+  }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run

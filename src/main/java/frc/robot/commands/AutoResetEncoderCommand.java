@@ -5,9 +5,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
-public class AutoWaitCommand extends Command {
-  public AutoWaitCommand() {
+public class AutoResetEncoderCommand extends Command {
+  public AutoResetEncoderCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -18,12 +19,16 @@ public class AutoWaitCommand extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {}
+  protected void execute() {
+    Robot.m_driveSubsystem.leftEncoder.setPosition(0);
+    Robot.m_driveSubsystem.rightEncoder.setPosition(0);
+    Robot.m_driveSubsystem.gyro.reset();
+  }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return ((Robot.m_driveSubsystem.leftEncoder.getPosition() == 0)&&(Robot.m_driveSubsystem.rightEncoder.getPosition() == 0));
   }
 
   // Called once after isFinished returns true
